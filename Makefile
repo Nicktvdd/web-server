@@ -8,7 +8,10 @@ RM = rm -rf
 
 HEADERS	= incl/server.hpp incl/socket.hpp incl/manager.hpp
 
-SRCS = src/server.cpp src/socket.cpp main.cpp src/manager.cpp
+SRCS = src/server.cpp \
+src/socket.cpp main.cpp src/manager/manager.cpp \
+src/manager/Cgi.cpp src/manager/Request.cpp src/manager/Communication.cpp \
+src/manager/Poll.cpp src/manager/ReadConfig.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 

@@ -40,6 +40,10 @@ public:
 
 	void handleClientCommunication(size_t index);
 
+	void handleTimeout(size_t index, int k);
+
+	void handleWorkDone(size_t index, int k);
+
 	void handleCgiWork(size_t index);
 
 	void handlePollEvent(size_t index);
