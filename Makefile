@@ -11,7 +11,8 @@ HEADERS	= incl/server.hpp incl/socket.hpp incl/Manager.hpp
 SRCS = src/server.cpp \
 src/socket.cpp main.cpp src/Manager/Manager.cpp \
 src/Manager/Cgi.cpp src/Manager/Request.cpp src/Manager/Communication.cpp \
-src/Manager/Poll.cpp src/Manager/ReadConfig.cpp
+src/Manager/Poll.cpp src/Manager/ReadConfig.cpp \
+src/Response.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 

@@ -1,11 +1,11 @@
 #ifndef SERVER_HPP
-# define SERVER_HPP
-# include "library.hpp"
-# include "socket.hpp"
+#define SERVER_HPP
+#include "library.hpp"
+#include "socket.hpp"
 
-# define DEFAULTCONFIG "incl/config.conf"
-# define DEFAULT404DIR "error/404Default.html"
-# define POLL_TIMEOUT 1000
+#define DEFAULTCONFIG "incl/config.conf"
+#define DEFAULT404DIR "error/404Default.html"
+#define POLL_TIMEOUT 1000
 
 class Server
 {
@@ -18,11 +18,12 @@ private:
 	std::string cgiExt;
 	std::string cgiPath;
 	int client_max_body_size;
+
 public:
 	Server();
 	~Server();
 	Server(const Server &var);
-	Server& operator=(const Server &var);
+	Server &operator=(const Server &var);
 
 	std::string makeStatus2xx(int status);
 	std::string makeStatus3xx(int status);
@@ -31,7 +32,7 @@ public:
 	std::string makeHeader(int responseStatus, int responseSize);
 	std::string buildHTTPResponse(std::string fileName, std::string fileExt);
 
-	//Not used at the moment
+	// Not used at the moment
 	std::string getMIMEType(std::string fileExt);
 
 	std::string getServerName(void);

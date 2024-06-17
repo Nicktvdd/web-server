@@ -5,21 +5,32 @@ listeningSocket::listeningSocket()
 	// Default constructor
 }
 
-listeningSocket::listeningSocket(int portNum)
+int listeningSocket::createSocket(int portNum)
 {
 	std::cout << "Creating socket (with port num " << portNum << ")" << std::endl;
 	this->port = portNum;
 
 	// Create socket
-	if ((serverFd = socket(AF_INET, SOCK_STREAM, 0)) == 0)
+	if ((serverFd = socket(AF_INET, SOCK_STREAM, 0)) == -1)
 	{
 		std::cout << "ERROR: Failed to create socket - " << strerror(errno) << std::endl;
-		return;
+		return -1;
 	}
+	return 0;
+}
 
+listeningSocket::listeningSocket(int portNum)
+{
+	if (createSocket(portNum) == -1)
+		return;
 	// Set socket options to reuse address
 	const int enable = 1;
-	setsockopt(serverFd, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int));
+	if (setsockopt(serverFd, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int)) == -1)
+	{
+		std::cout << "ERROR: Failed to set socket options - " << strerror(errno) << std::endl;
+		// Don't close the socket here, because it is closed with closeInactiveConnections RIGHT??
+		return;
+	}
 
 	// Set up server address
 	address.sin_family = AF_INET;
@@ -28,7 +39,7 @@ listeningSocket::listeningSocket(int portNum)
 	memset(address.sin_zero, '\0', sizeof(address.sin_zero));
 
 	// Bind socket to the specified address
-	if (bind(serverFd, (struct sockaddr*)&address, sizeof(address)) < 0)
+	if (bind(serverFd, (struct sockaddr *)&address, sizeof(address)) < 0)
 	{
 		std::cout << "ERROR: Failed to bind socket - " << strerror(errno) << std::endl;
 		return;

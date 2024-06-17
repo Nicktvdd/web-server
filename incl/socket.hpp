@@ -1,6 +1,6 @@
 #ifndef SOCKET_HPP
-# define SOCKET_HPP
-# include "library.hpp"
+#define SOCKET_HPP
+#include "library.hpp"
 
 class listeningSocket
 {
@@ -9,17 +9,18 @@ private:
 	struct sockaddr_in address;
 	int port;
 	int newSocket;
+
 public:
 	listeningSocket();
 	listeningSocket(int portNum);
 	~listeningSocket();
 	listeningSocket(const listeningSocket &var);
-	listeningSocket& operator=(const listeningSocket &var);
-	
+	listeningSocket &operator=(const listeningSocket &var);
+
+	int createSocket(int portNum);
 	struct sockaddr_in getAddress();
 	int getServerFd();
 	int getPortNum();
 };
-
 
 #endif
