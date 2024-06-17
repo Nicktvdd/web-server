@@ -1,4 +1,4 @@
-#include "../../incl/manager.hpp"
+#include "../../incl/Manager.hpp"
 
 // GET
 void Manager::handleGet(std::string receivedData, std::vector<struct pollfd> fds, int i)

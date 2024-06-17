@@ -6,12 +6,12 @@ RM = rm -rf
 
 # INCLUDES = -I includes -I libft/includes
 
-HEADERS	= incl/server.hpp incl/socket.hpp incl/manager.hpp
+HEADERS	= incl/server.hpp incl/socket.hpp incl/Manager.hpp
 
 SRCS = src/server.cpp \
-src/socket.cpp main.cpp src/manager/manager.cpp \
-src/manager/Cgi.cpp src/manager/Request.cpp src/manager/Communication.cpp \
-src/manager/Poll.cpp src/manager/ReadConfig.cpp
+src/socket.cpp main.cpp src/Manager/Manager.cpp \
+src/Manager/Cgi.cpp src/Manager/Request.cpp src/Manager/Communication.cpp \
+src/Manager/Poll.cpp src/Manager/ReadConfig.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 

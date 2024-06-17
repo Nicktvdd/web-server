@@ -1,4 +1,4 @@
-#include "../../incl/manager.hpp"
+#include "../../incl/Manager.hpp"
 
 // Read config
 int Manager::readConfig(std::string fileName)

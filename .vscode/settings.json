@@ -66,6 +66,15 @@
 		"utility": "cpp",
 		"__tree": "cpp",
 		"map": "cpp",
-		"filesystem": "cpp"
+		"filesystem": "cpp",
+		"*.tcc": "cpp",
+		"clocale": "cpp",
+		"compare": "cpp",
+		"concepts": "cpp",
+		"set": "cpp",
+		"memory_resource": "cpp",
+		"numeric": "cpp",
+		"random": "cpp",
+		"numbers": "cpp"
 	}
 }

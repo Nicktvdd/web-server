@@ -1,4 +1,4 @@
-#include "../../incl/manager.hpp"
+#include "../../incl/Manager.hpp"
 
 // Close inactive connections
 void Manager::closeInactiveConnections(size_t index)

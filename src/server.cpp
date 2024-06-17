@@ -1,7 +1,9 @@
 #include "../incl/server.hpp"
 
+// Default constructor
 Server::Server()
 {
+	// Initialize member variables with default values
 	this->servName = "defaultserv";
 	this->error404Dir = DEFAULT404DIR;
 	this->cgiExt = "";
@@ -10,13 +12,16 @@ Server::Server()
 	this->numOfPorts = 0;
 }
 
+// Destructor
 Server::~Server()
 {
 	std::cout << "Deleting server" << std::endl;
 }
 
+// Copy constructor
 Server::Server(const Server &var)
 {
+	// Copy member variables from the source object
 	this->servName = var.servName;
 	this->rootDir = var.rootDir;
 	this->error404Dir = var.error404Dir;
@@ -28,10 +33,12 @@ Server::Server(const Server &var)
 	this->listeners = var.listeners;
 }
 
+// Assignment operator
 Server &Server::operator=(const Server &var)
 {
 	if (this != &var)
 	{
+		// Copy member variables from the source object
 		this->servName = var.servName;
 		this->rootDir = var.rootDir;
 		this->error404Dir = var.error404Dir;
@@ -45,6 +52,7 @@ Server &Server::operator=(const Server &var)
 	return (*this);
 }
 
+// Print server information
 void Server::print(void)
 {
 	std::cout << "server name = " << servName << std::endl;
@@ -59,57 +67,68 @@ void Server::print(void)
 	}
 }
 
+// Get server name
 std::string Server::getServerName(void)
 {
 	return this->servName;
 }
 
+// Set server name
 void Server::setServerName(std::string name)
 {
 	this->servName = name;
 }
 
+// Set root directory
 void Server::setRootDir(std::string dir)
 {
 	this->rootDir = dir;
 }
 
+// Set error directory
 void Server::setErrorDir(std::string dir)
 {
 	this->error404Dir = dir;
 }
 
+// Set CGI extension
 void Server::setCGIExt(std::string ext)
 {
 	if (this->cgiExt.empty())
 		this->cgiExt = ext;
 }
 
+// Set CGI path
 void Server::setCGIPath(std::string path)
 {
 	this->cgiPath = path;
 }
 
+// Set maximum client body size
 void Server::setClientBodySize(std::string size)
 {
 	this->client_max_body_size = std::stoi(size);
 }
 
+// Get maximum client body size
 int Server::getClientBodySize(void)
 {
 	return this->client_max_body_size;
 }
 
+// Get CGI path
 std::string Server::getCGIPath(void)
 {
 	return this->cgiPath;
 }
 
+// Get CGI extension
 std::string Server::getCGIExt(void)
 {
 	return this->cgiExt;
 }
 
+// Get MIME type based on file extension
 std::string Server::getMIMEType(std::string fileExt)
 {
 	if (fileExt.compare(".html") == 0 || fileExt.compare(".htm") == 0)
@@ -134,6 +153,7 @@ std::string Server::getMIMEType(std::string fileExt)
 	}
 }
 
+// Generate status message for 2xx HTTP status codes
 std::string Server::makeStatus2xx(int status)
 {
 	if (status == 200)
@@ -151,6 +171,7 @@ std::string Server::makeStatus2xx(int status)
 	return " ERROR";
 }
 
+// Generate status message for 3xx HTTP status codes
 std::string Server::makeStatus3xx(int status)
 {
 	if (status == 300)
@@ -159,6 +180,7 @@ std::string Server::makeStatus3xx(int status)
 	return " ERROR";
 }
 
+// Generate status message for 4xx HTTP status codes
 std::string Server::makeStatus4xx(int status)
 {
 	if (status == 400)
@@ -166,7 +188,7 @@ std::string Server::makeStatus4xx(int status)
 
 	if (status == 404)
 		return " Not Found";
-	
+
 	if (status == 413)
 		return " Request Entity Too Large";
 
@@ -176,6 +198,7 @@ std::string Server::makeStatus4xx(int status)
 	return " ERROR";
 }
 
+// Generate status message for 5xx HTTP status codes
 std::string Server::makeStatus5xx(int status)
 {
 	if (status == 500)
@@ -186,6 +209,8 @@ std::string Server::makeStatus5xx(int status)
 
 	return " ERROR";
 }
+
+// Generate HTTP header
 std::string Server::makeHeader(int responseStatus, int responseSize)
 {
 	std::stringstream headerStream;
@@ -212,24 +237,22 @@ std::string Server::makeHeader(int responseStatus, int responseSize)
 	return header;
 }
 
+// Build HTTP response
 std::string Server::buildHTTPResponse(std::string fileName, std::string fileExt)
 {
-	std::cout << "BUILDING" << std::endl;
 	std::string response;
 	std::string mimeType = getMIMEType(fileExt);
-	std::cout << "file name = " << fileName << std::endl;
 	std::string header;
 	std::string buffer;
 	std::stringstream headerStream;
 	std::stringstream responseStream;
 
-	// if empty, aka front page
+	// If empty, i.e., front page
 	if (fileName.empty())
 	{
 		std::string fileFull;
 		fileFull.append(rootDir);
 		fileFull.append("home.html");
-		std::cout << "the front page is " << fileFull << std::endl;
 		int fileFd = open(fileFull.data(), O_RDONLY);
 		std::ifstream file(fileFull);
 		if (file.is_open() == 0)
@@ -245,12 +268,11 @@ std::string Server::buildHTTPResponse(std::string fileName, std::string fileExt)
 		return response;
 	}
 
-	// if some other page
+	// If some other page
 	std::string fileFull;
 	fileFull.append(rootDir);
 	fileFull.append(fileName);
 	fileFull.append(fileExt);
-	std::cout << fileFull << std::endl;
 	int fileFd = open(fileFull.data(), O_RDONLY);
 	std::ifstream file(fileFull);
 	if (file.is_open() == 0)
@@ -279,12 +301,14 @@ std::string Server::buildHTTPResponse(std::string fileName, std::string fileExt)
 	return response;
 }
 
+// Set socket to non-blocking mode
 void setnonblocking(int sockfd)
 {
 	int flags = fcntl(sockfd, F_GETFL, 0);
 	fcntl(sockfd, F_SETFL, flags | O_NONBLOCK);
 }
 
+// Log text to a file
 void Server::log(std::string text)
 {
 	std::ofstream logfile;
@@ -304,20 +328,19 @@ void Server::log(std::string text)
 	logfile << "New entry in log, at time " << timeBuffer << std::endl;
 	logfile << text;
 	logfile << std::endl
-			<< std::endl;
+			 << std::endl;
 	logfile.close();
 }
 
+// Add a port to the server
 void Server::addPort(int port)
 {
-	std::cout << "HERE port = " << port << std::endl;
 	int i;
 	for (i = 0; i < numOfPorts; i++)
 	{
 		if (ports.at(i) == port)
 			break;
 	}
-	std::cout << "HERE, i = " << i << " numOfports = " << numOfPorts << std::endl;
 	if (i == numOfPorts)
 	{
 		ports.push_back(port);
@@ -325,12 +348,13 @@ void Server::addPort(int port)
 	}
 }
 
+// Get the number of ports
 int Server::getNumOfPorts(void)
 {
 	return this->numOfPorts;
 }
 
-
+// Create listening sockets for all ports
 void Server::makeSocketList()
 {
 	for (int i = 0; i < numOfPorts; i++)
@@ -341,7 +365,8 @@ void Server::makeSocketList()
 	}
 }
 
+// Get the root directory
 std::string Server::getRootDir()
 {
-	 return this->rootDir;
+	return this->rootDir;
 }

@@ -1,4 +1,4 @@
-#include "incl/manager.hpp"
+#include "incl/Manager.hpp"
 
 int main(int argc, char **argv)
 {
