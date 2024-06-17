@@ -3,3 +3,5 @@ testfile.txt
 parser
 *.o
 server
+.vscode/c_cpp_properties.json
+.vscode/settings.json
