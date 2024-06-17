@@ -32,6 +32,20 @@ public:
 	Manager(const Manager &var);
 	Manager& operator=(const Manager &var);
 
+	void setupPollingforServers();
+
+	void handlePolling();
+
+	bool acceptNewConnections(size_t index);
+
+	void handleClientCommunication(size_t index);
+
+	void handleCgiWork(size_t index);
+
+	void handlePollEvent(size_t index);
+
+	void closeInactiveConnections(size_t index);
+
 	void run(std::string configFile);
 
 	int readConfig(std::string fileName);
